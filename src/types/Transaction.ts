@@ -1,3 +1,5 @@
+import type { StatusTransactionEnum } from "@/enums/statusTransactionEnum";
+
 export interface Transaction {
   product_id: string;
   quantity: number;
@@ -11,4 +13,12 @@ export interface Transaction {
     address: string;
     number_phone: string;
   };
+}
+
+export interface TransactionResponse {
+  message: string;
+  payment_status: StatusTransactionEnum;
+  order_id: string;
+  amount: number;
+  quantity: number;
 }

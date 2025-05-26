@@ -156,11 +156,11 @@ const submitForm = async () => {
           </div>
           <div class="flex justify-between items-center">
             <span class="font-medium">Precio unitario:</span>
-            <span>${{ formatCurrency(product?.price)}}</span>
+            <span>{{ formatCurrency(product?.price)}}</span>
           </div>
           <div class="flex justify-between items-center font-bold text-lg">
             <span>Total:</span>
-            <span>${{ formatCurrency(product?.price * quantity) }}</span>
+            <span>{{ formatCurrency(product?.price * quantity) }}</span>
           </div>
         </div>
       </div>

@@ -15,18 +15,14 @@ const visible = ref<boolean>(false);
 const hasStock = ref<boolean>(false);
 const quantity = ref<number>(1);
 
-// Manejar el cambio de cantidad desde ProductDetailCard
 const handleQuantityChange = (value: number) => {
   quantity.value = value;
-  console.log("Cantidad actualizada:", quantity.value);
 };
 
 onMounted(async () => {
   const productId = route.params.id as string;
   try {
     product.value = await getProductById(productId);
-    console.log("Producto cargado:", product.value);
-    // Verificar si el producto tiene stock
     hasStock.value = product.value && product.value.stock > 0;
   } catch (error) {
     console.error("Error fetching product:", error);
@@ -35,20 +31,12 @@ onMounted(async () => {
   }
 });
 
-// Manejar el evento de pago completado
 const handlePaymentCompleted = (paymentData: any) => {
-  console.log("Datos de pago recibidos:", paymentData);
-  
-  // Asegurarse de que el producto esté incluido en los datos
   if (!paymentData.product && product.value) {
     paymentData.product = product.value;
   }
   
-  // Guardar los datos en localStorage
   localStorage.setItem("paymentData", JSON.stringify(paymentData));
-  console.log("Datos guardados en localStorage");
-  
-  // Redirigir a la página de resumen
   router.push("/summary");
 };
 </script>

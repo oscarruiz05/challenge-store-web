@@ -16,11 +16,9 @@ const loadPaymentData = () => {
   if (storedData) {
     try {
       const parsedData = JSON.parse(storedData);
-      console.log('Datos cargados:', parsedData);
       paymentData.value = parsedData;
       
       if (parsedData.product) {
-        console.log('Producto encontrado en los datos:', parsedData.product);
         product.value = parsedData.product;
       } else {
         console.error('No se encontró el producto en los datos de pago');

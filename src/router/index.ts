@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/pages/Home.vue";
-import PaymentSumaryPage from "@/pages/PaymentSumaryPage.vue";
-import PaymentResultPage from "@/pages/PaymentResultPage.vue";
+import PaymentSumaryPage from "@/pages/PaymenSummary/PaymentSumaryPage.vue";
+import PaymentResultPage from "@/pages/PaymentResult/PaymentResultPage.vue";
 import ProductDetail from "@/pages/ProductDetail/ProductDetailPage.vue";
 
 const routes = [
@@ -21,7 +21,7 @@ const routes = [
     component: PaymentSumaryPage,
   },
   {
-    path: "/summary/result",
+    path: "/payment-result",
     name: "PaymentResultPage",
     component: PaymentResultPage,
   },

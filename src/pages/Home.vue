@@ -9,6 +9,8 @@ const products = ref<Product[]>([]);
 const loading = ref(true);
 
 onMounted(async () => {
+  localStorage.removeItem('paymentData');
+  localStorage.removeItem('paymentResult');
   try {
     products.value = await getProducts();
   } catch (error) {
