@@ -8,6 +8,7 @@ const props = defineProps<{
 }>();
 const emit = defineEmits<{
   (e: "showDialog", value: boolean): void;
+  (e: "quantity-change", value: number): void;
 }>();
 
 const quantityProdcut = ref<number>(1);
@@ -23,6 +24,7 @@ const validateQuantity = (value: number) => {
   } else {
     quantityError.value = null;
     quantityProdcut.value = value;
+    emit("quantity-change", value);
   }
 };
 
