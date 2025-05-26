@@ -342,9 +342,18 @@ const submitForm = async () => {
           severity="secondary"
           @click="dialogVisible = false"
           type="button"
+          :disabled="isSubmitting"
           >Cancelar</Button
         >
-        <Button type="submit" :loading="isSubmitting">Resumen de compra</Button>
+        <Button 
+          type="submit" 
+          :loading="isSubmitting"
+          :disabled="isSubmitting"
+          class="p-button-primary"
+        >
+          <i v-if="isSubmitting" class="pi pi-spin pi-spinner mr-2"></i>
+          {{ isSubmitting ? 'Procesando datos...' : 'Procesar pago' }}
+        </Button>
       </div>
     </form>
   </Dialog>

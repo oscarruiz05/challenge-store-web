@@ -20,7 +20,7 @@ export async function createTokenCard(data: Card): Promise<ResponseCard> {
 
 export async function getAcceptanceTokens(): Promise<AcceptanceToken> {
   const response = await api
-    .post<ResponseAcceptanceToken>(`/merchants/${publicKey}`)
+    .get<ResponseAcceptanceToken>(`/merchants/${publicKey}`)
     .then((res) => res.data);
   const data = response.data;
   return {
