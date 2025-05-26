@@ -9,6 +9,7 @@ import type { FormData, FormErrors, PaymentData } from "@/types/Form";
 import { cardPatterns } from "@/utils/cardPatterns";
 import { validateForm } from "@/utils/validators";
 import { formatCardNumber, formatExpiryDate } from "@/utils/formatters";
+import formatCurrency from "@/utils/formatCurrency";
 
 const props = defineProps<{
   visible: boolean;
@@ -30,6 +31,7 @@ const formData = reactive<FormData>({
   cvc: "",
   cardName: "",
   name: "",
+  last_name: "",
   email: "",
   address: "",
   phone: "",
@@ -41,6 +43,7 @@ const errors = reactive<FormErrors>({
   cvc: "",
   cardName: "",
   name: "",
+  last_name: "",
   email: "",
   address: "",
   phone: "",
@@ -83,20 +86,24 @@ const createCardData = (): Card => {
 
 const createPaymentData = (
   cardToken: string,
+  cardLastFour: string,
   acceptanceTokens: any
 ): PaymentData => {
   return {
     product_id: props.product.id,
     quantity: props.quantity,
     card_token: cardToken,
+    last_four: cardLastFour,
     acceptance_token: acceptanceTokens.acceptance_token,
     accept_personal_auth: acceptanceTokens.accept_personal_auth,
     customer: {
       name: formData.name,
+      last_name: formData.last_name,
       email: formData.email,
       address: formData.address,
       number_phone: formData.phone,
     },
+    product: props.product,
   };
 };
 
@@ -110,6 +117,7 @@ const submitForm = async () => {
 
     const paymentData = createPaymentData(
       tokenResponse.data.id,
+      tokenResponse.data.last_four,
       acceptanceTokens
     );
     emit("payment-completed", paymentData);
@@ -148,11 +156,11 @@ const submitForm = async () => {
           </div>
           <div class="flex justify-between items-center">
             <span class="font-medium">Precio unitario:</span>
-            <span>${{ product?.price.toLocaleString() }}</span>
+            <span>${{ formatCurrency(product?.price)}}</span>
           </div>
           <div class="flex justify-between items-center font-bold text-lg">
             <span>Total:</span>
-            <span>${{ (product?.price * quantity).toLocaleString() }}</span>
+            <span>${{ formatCurrency(product?.price * quantity) }}</span>
           </div>
         </div>
       </div>
@@ -261,25 +269,41 @@ const submitForm = async () => {
           <h2 class="text-2xl font-semibold">🚚 Datos de Entrega</h2>
         </div>
         <div class="space-y-4">
-          <div>
-            <label
-              for="name"
-              class="block text-sm font-medium text-gray-700 mb-1"
-              >Nombre Completo</label
-            >
-            <input
-              id="name"
-              type="text"
-              placeholder="Tu nombre completo"
-              v-model="formData.name"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border"
-            />
-            <p v-if="errors.name" class="text-red-500 text-sm mt-1">
-              {{ errors.name }}
-            </p>
-          </div>
-
           <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label
+                for="name"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Nombre</label
+              >
+              <input
+                id="name"
+                type="text"
+                placeholder="Tu nombre"
+                v-model="formData.name"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border"
+              />
+              <p v-if="errors.name" class="text-red-500 text-sm mt-1">
+                {{ errors.name }}
+              </p>
+            </div>
+            <div>
+              <label
+                for="last_name"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Apellido</label
+              >
+              <input
+                id="last_name"
+                type="text"
+                placeholder="Tu nombre"
+                v-model="formData.last_name"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border"
+              />
+              <p v-if="errors.last_name" class="text-red-500 text-sm mt-1">
+                {{ errors.last_name }}
+              </p>
+            </div>
             <div>
               <label
                 for="email"
@@ -345,14 +369,14 @@ const submitForm = async () => {
           :disabled="isSubmitting"
           >Cancelar</Button
         >
-        <Button 
-          type="submit" 
+        <Button
+          type="submit"
           :loading="isSubmitting"
           :disabled="isSubmitting"
           class="p-button-primary"
         >
           <i v-if="isSubmitting" class="pi pi-spin pi-spinner mr-2"></i>
-          {{ isSubmitting ? 'Procesando datos...' : 'Procesar pago' }}
+          {{ isSubmitting ? "Procesando datos..." : "Procesar pago" }}
         </Button>
       </div>
     </form>

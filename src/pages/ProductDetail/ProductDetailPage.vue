@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import type { Product } from "@/types/Product";
 import { getProductById } from "@/services/products";
@@ -15,14 +15,18 @@ const visible = ref<boolean>(false);
 const hasStock = ref<boolean>(false);
 const quantity = ref<number>(1);
 
+// Manejar el cambio de cantidad desde ProductDetailCard
 const handleQuantityChange = (value: number) => {
   quantity.value = value;
+  console.log("Cantidad actualizada:", quantity.value);
 };
 
 onMounted(async () => {
   const productId = route.params.id as string;
   try {
     product.value = await getProductById(productId);
+    console.log("Producto cargado:", product.value);
+    // Verificar si el producto tiene stock
     hasStock.value = product.value && product.value.stock > 0;
   } catch (error) {
     console.error("Error fetching product:", error);
@@ -31,8 +35,20 @@ onMounted(async () => {
   }
 });
 
+// Manejar el evento de pago completado
 const handlePaymentCompleted = (paymentData: any) => {
+  console.log("Datos de pago recibidos:", paymentData);
+  
+  // Asegurarse de que el producto esté incluido en los datos
+  if (!paymentData.product && product.value) {
+    paymentData.product = product.value;
+  }
+  
+  // Guardar los datos en localStorage
   localStorage.setItem("paymentData", JSON.stringify(paymentData));
+  console.log("Datos guardados en localStorage");
+  
+  // Redirigir a la página de resumen
   router.push("/summary");
 };
 </script>
@@ -46,15 +62,26 @@ const handlePaymentCompleted = (paymentData: any) => {
         </RouterLink>
       </div>
 
+      <div v-if="loading" class="text-center py-8">
+        <i class="pi pi-spin pi-spinner text-4xl"></i>
+        <p class="mt-2">Cargando producto...</p>
+      </div>
+
       <ProductDetailCard
-        v-if="product"
+        v-else-if="product"
         :product="product"
         @showDialog="visible = $event"
         @quantity-change="handleQuantityChange"
       />
+      
+      <div v-else class="bg-white shadow-md rounded-lg p-6 text-center">
+        <p class="text-lg">No se encontró el producto.</p>
+        <Button class="mt-4" @click="router.push('/')">Volver a la tienda</Button>
+      </div>
     </div>
 
     <ModalForm
+      v-if="product"
       v-model:visible="visible"
       :product="product"
       :hasStock="hasStock"

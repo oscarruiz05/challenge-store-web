@@ -4,6 +4,10 @@ export const validateEmail = (email: string): boolean => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 };
 
+export const validatePhone = (phone: string): boolean => {
+  return /^\d{10}$/.test(phone);
+};
+
 export const validateCardExpiry = (expiry: string): { isValid: boolean; message?: string } => {
   const [month, year] = expiry.split('/');
   const currentYear = new Date().getFullYear() % 100;
@@ -24,7 +28,6 @@ export const validateCardExpiry = (expiry: string): { isValid: boolean; message?
 export const validateForm = (formData: FormData, errors: FormErrors): boolean => {
   let isValid = true;
   
-  // Reset errors
   Object.keys(errors).forEach(key => {
     errors[key as keyof typeof errors] = "";
   });
@@ -86,6 +89,9 @@ export const validateForm = (formData: FormData, errors: FormErrors): boolean =>
   
   if (!formData.phone) {
     errors.phone = "El teléfono es requerido";
+    isValid = false;
+  } else if (!validatePhone(formData.phone)) {
+    errors.phone = "Teléfono debe contener 10 dígitos";
     isValid = false;
   }
   

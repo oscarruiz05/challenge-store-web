@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import formatCurrency from "@/utils/formatCurrency";
 import { defineProps } from "vue";
 
 const props = defineProps<{
@@ -19,7 +20,7 @@ const props = defineProps<{
       />
     </template>
     <template #title>{{ props.title }}</template>
-    <template #subtitle>{{ props.price }}</template>
+    <template #subtitle>{{ formatCurrency(props.price) }}</template>
     <template #content>
       <p class="m-0">
         {{ props.description }}
