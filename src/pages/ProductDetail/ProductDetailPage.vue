@@ -2,7 +2,7 @@
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import type { Product } from "@/types/Product";
-import { getProductById } from "@/services/products";
+import { getProductById } from "@/services/products/products";
 import ModalForm from "@/components/ModalForm.vue";
 import ProductDetailCard from "./ProductDetailCard.vue";
 

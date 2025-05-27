@@ -3,7 +3,7 @@ import { defineProps, defineEmits, computed, ref, reactive } from "vue";
 import {
   createTokenCard,
   getAcceptanceTokens,
-} from "@/services/payments/paymentGateway";
+} from "@/services/payments/payments";
 import type { Card } from "@/types/Card";
 import type { FormData, FormErrors, PaymentData } from "@/types/Form";
 import { cardPatterns } from "@/utils/cardPatterns";

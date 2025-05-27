@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { createTransaction } from '@/services/transactions';
+import { createTransaction } from '@/services/transactions/transactions';
 import type { Transaction } from '@/types/Transaction';
 import formatCurrency from '@/utils/formatCurrency';
 import { ref, onMounted } from 'vue';
