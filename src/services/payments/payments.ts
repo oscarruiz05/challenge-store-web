@@ -1,4 +1,4 @@
-import api from "..";
+import { apiPayment } from "..";
 
 interface Card {
   number: string;
@@ -8,28 +8,16 @@ interface Card {
   card_holder: string;
 }
 
-interface PaymentData {
-  acceptance_token: string;
-  amount_in_cents: number;
-  currency: string;
-  customer_email: string;
-  payment_method: {
-    type: string;
-    token: string;
-    installments: number;
-  };
-  reference: string;
-}
-
 export async function createTokenCard(cardData: Card) {
-  return await api.post('/tokens/cards', cardData);
+  return await apiPayment.post('/tokens/cards', cardData).then((res) => res.data);
 }
 
 export async function getAcceptanceTokens() {
-  const response = await api.get('/merchants/acceptance_tokens');
-  return response.data;
-}
+  const response = await apiPayment.get(`/merchants/${import.meta.env.VITE_PAYMENT_PUBLIC_KEY}`).then((res) => res.data);
+  const data = response.data;
 
-export async function processPayment(paymentData: PaymentData) {
-  return await api.post('/transactions', paymentData);
+  return {
+    acceptance_token: data.presigned_acceptance.acceptance_token,
+    accept_personal_auth: data.presigned_personal_data_auth.acceptance_token,
+  }
 }
