@@ -1,8 +1,32 @@
-# Vue 3 + TypeScript + Vite
+# 🛒 Challenge Store Web
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Challenge Store Web es una aplicación web que permite a los usuarios explorar, seleccionar y comprar productos de forma rápida y sencilla.
+Incluye un flujo completo de compra, desde la selección del producto hasta el procesamiento del pago, con una experiencia enfocada en la simplicidad y el rendimiento.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## 🧱 Tecnologías utilizadas
 
+- **Framework:** Vue 3
+- **Herramienta de build:** Vite
+- **Pruebas:** Vitest + Vue Test Utils
+- **Cobertura:** c8 (Istanbul) integrada con Vitest
+- **Lenguaje:** TypeScript
+
+## 🚀 Instalación y Ejecución
+
+```bash
+  git clone https://github.com/oscarruiz05/challenge-store-web
+  cd challenge-store-web
+
+  npm install
+  npm run dev
+````
+
+## 🧪 Tests
+
+```bash
+  npm run test
+  npm run test:coverage
+````
+
+## 📊 Reporte de coverage
 ![image](https://github.com/user-attachments/assets/2ac4d1d7-8925-48a5-839b-e89c08c4daad)
-
