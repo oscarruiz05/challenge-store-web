@@ -114,6 +114,7 @@ const submitForm = async () => {
     const cardData = createCardData();
     const tokenResponse = await createTokenCard(cardData);
     const acceptanceTokens = await getAcceptanceTokens();
+    console.log("🚀 ~ submitForm ~ acceptanceTokens:", acceptanceTokens)
 
     const paymentData = createPaymentData(
       tokenResponse.data.id,
