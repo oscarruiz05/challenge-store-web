@@ -108,7 +108,7 @@ const createPaymentData = (
 };
 
 const submitForm = async () => {
-  if (!validateForm(formData, errors)) return;
+  if (!validateForm(formData)) return;
   try {
     isSubmitting.value = true;
     const cardData = createCardData();
