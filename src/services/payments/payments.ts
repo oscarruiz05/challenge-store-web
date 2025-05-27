@@ -1,30 +1,35 @@
-import type {
-  AcceptanceToken,
-  ResponseAcceptanceToken,
-} from "@/types/AcceptanceToken";
-import type { Card, ResponseCard } from "@/types/Card";
-import axios from "axios";
+import api from "..";
 
-const publicKey = import.meta.env.VITE_PAYMENT_PUBLIC_KEY;
-
-const api = axios.create({
-  baseURL: import.meta.env.VITE_PAYMENT_API_URL || "",
-  headers: {
-    Authorization: `Bearer ${publicKey}`,
-  },
-});
-
-export async function createTokenCard(data: Card): Promise<ResponseCard> {
-  return api.post<ResponseCard>(`/tokens/cards`, data).then((res) => res.data);
+interface Card {
+  number: string;
+  exp_month: string;
+  exp_year: string;
+  cvc: string;
+  card_holder: string;
 }
 
-export async function getAcceptanceTokens(): Promise<AcceptanceToken> {
-  const response = await api
-    .get<ResponseAcceptanceToken>(`/merchants/${publicKey}`)
-    .then((res) => res.data);
-  const data = response.data;
-  return {
-    acceptance_token: data.presigned_acceptance.acceptance_token,
-    accept_personal_auth: data.presigned_personal_data_auth.acceptance_token,
+interface PaymentData {
+  acceptance_token: string;
+  amount_in_cents: number;
+  currency: string;
+  customer_email: string;
+  payment_method: {
+    type: string;
+    token: string;
+    installments: number;
   };
+  reference: string;
+}
+
+export async function createTokenCard(cardData: Card) {
+  return await api.post('/tokens/cards', cardData);
+}
+
+export async function getAcceptanceTokens() {
+  const response = await api.get('/merchants/acceptance_tokens');
+  return response.data;
+}
+
+export async function processPayment(paymentData: PaymentData) {
+  return await api.post('/transactions', paymentData);
 }

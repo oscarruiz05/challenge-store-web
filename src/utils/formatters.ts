@@ -1,19 +1,21 @@
-export const formatCardNumber = (value: string): string => {
-  const cleanValue = value.replace(/\D/g, '');
+export function formatCardNumber(value: string | null | undefined): string {
+  if (!value) return '';
   
-  if (cleanValue.length > 0) {
-    return cleanValue.match(new RegExp('.{1,4}', 'g'))!.join(' ');
-  }
+  const v = value.replace(/\D/g, '');
   
-  return cleanValue;
-};
+  const formatted = v.replace(/(\d{4})(?=\d)/g, '$1 ');
+  
+  return formatted;
+}
 
-export const formatExpiryDate = (value: string): string => {
-  const cleanValue = value.replace(/\D/g, '');
+export function formatExpiryDate(value: string | null | undefined): string {
+  if (!value) return '';
   
-  if (cleanValue.length > 2) {
-    return cleanValue.substring(0, 2) + '/' + cleanValue.substring(2, 4);
+  const v = value.replace(/\D/g, '');
+  
+  if (v.length > 2) {
+    return `${v.substring(0, 2)}/${v.substring(2)}`;
   }
   
-  return cleanValue;
-};
+  return v;
+}
