@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-  <header class="bg-blue-500 border-b border-gray-200 shadow-md sticky top-0">
+  <header class="bg-blue-500 border-b border-gray-200 shadow-md sticky top-0 z-50">
     <div class="container mx-auto px-4 py-4">
       <div class="flex justify-center items-center">
         <RouterLink to="/">
