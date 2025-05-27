@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import ProductGrid from "@/components/ProductGrid.vue";
 import SkeletonGridCard from "@/components/SkeletonGridCard.vue";
-import { getProducts } from "@/services/products";
+import { getProducts } from "@/services/products/products";
 import type { Product } from "@/types/Product";
 import { ref, onMounted } from "vue";
 

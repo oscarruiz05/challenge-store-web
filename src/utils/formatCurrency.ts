@@ -1,12 +1,8 @@
-export default function formatCurrency(
-  value: number,
-  currency: string = 'COP',
-  locale: string = 'es-CO'
-): string {
-  return new Intl.NumberFormat(locale, {
+export default function formatCurrency(value: number): string {
+  return new Intl.NumberFormat('es-CO', {
     style: 'currency',
-    currency: currency,
+    currency: 'COP',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0
-  }).format(value);
+  }).format(value).replace('COP', '$').replace(/\u00A0/g, ' ');
 }
